@@ -1,0 +1,162 @@
+
+
+
+
+import paramiko
+
+import socket
+
+from scp import SCPClient
+
+#from main import MainWindow
+
+
+
+client = paramiko.SSHClient()
+
+client.load_system_host_keys()
+
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+
+
+def redeToda(terminal, pathFrom, pathTo):
+
+    for loja in range(72, 79):
+
+        terminal.setText(" {}".format(loja))
+
+        for caixa in range(1, 4):
+
+            try:
+
+                terminal.clear()
+
+                client.connect(hostname='192.168.{}.{}'.format(loja, caixa + 20),username='caixa',password='pmp',timeout=4)
+
+                # Arquivos a serem copiados
+
+                terminal.setText("copiando...\n Caixa {}".format(caixa))
+
+                with SCPClient(client.get_transport()) as scp:
+
+                    scp.put(pathFrom, pathTo)
+
+                terminal.append(' OK!')
+
+
+
+            except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+                terminal.append('Host inacessível')
+
+            except socket.timeout as e:
+
+                terminal.append('Host inacessível')
+
+
+
+            except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+                terminal.append('Host inacessível')
+
+        for balcao in range(1, 6):
+
+            try:
+
+                terminal.clear()
+
+                client.connect(hostname='192.168.{}.{}'.format(loja, balcao),username='caixa',password='pmp',timeout=4)
+
+                # Arquivos a serem copiados
+
+                terminal.setText("copiando...\n Caixa {}".format(caixa))
+
+                with SCPClient(client.get_transport()) as scp:
+
+                    scp.put('c:/logo_pmp.ico', '/home/caixa/Downloads/logo_pmp.ico')
+
+                terminal.append(' OK!')
+
+
+
+            except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+                terminal.append('Host inacessível')
+
+            except socket.timeout as e:
+
+                terminal.append('Host inacessível')
+
+
+
+            except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+                terminal.append('Host inacessível')    
+
+def transfCaixa( loja, caixa,pathFrom,pathTo):
+    response = ''
+    try:
+
+        client.connect(hostname='192.168.{}.{}'.format(int(loja),int(caixa)),username='caixa', password='pmp',timeout=4)
+
+        # Arquivos a serem copiados
+
+        response = "copiando...\n Caixa {}\n".format(str(caixa))
+
+        with SCPClient(client.get_transport()) as scp:
+
+            scp.put(pathFrom, pathTo)
+
+        response +=' OK!'
+
+
+
+    except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+        response = 'Host inacessível'
+
+    except socket.timeout as e:
+
+        response = 'Host inacessível'
+
+
+
+    except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+        response ='Host inacessível'
+    return response
+
+def transfBalcao( loja, caixa,pathFrom,pathTo):
+    response = ''
+    try:
+
+        client.connect(hostname='192.168.{}.{}'.format(int(loja),int(caixa)),username='caixa', password='pmp',timeout=4)
+
+        # Arquivos a serem copiados
+
+        response = "copiando...\n Caixa {}\n".format(str(caixa))
+
+        with SCPClient(client.get_transport()) as scp:
+
+            scp.put(pathFrom, pathTo)
+
+        response +=' OK!'
+
+
+
+    except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+        response = 'Host inacessível'
+
+    except socket.timeout as e:
+
+        response = 'Host inacessível'
+
+
+
+    except paramiko.ssh_exception.NoValidConnectionsError as e:
+
+        response ='Host inacessível'
+    return response
+
